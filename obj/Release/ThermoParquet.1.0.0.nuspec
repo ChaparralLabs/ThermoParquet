@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
+  <metadata>
+    <id>ThermoParquet</id>
+    <version>1.0.0</version>
+    <authors>ThermoParquet</authors>
+    <description>Package Description</description>
+    <dependencies>
+      <group targetFramework="net7.0">
+        <dependency id="Parquet.Net" version="4.23.4" exclude="Build,Analyzers" />
+        <dependency id="ThermoFisher.CommonCore.Data" version="7.1.21" exclude="Build,Analyzers" />
+        <dependency id="ThermoFisher.CommonCore.RawFileReader" version="7.1.21" exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <file src="C:\Users\mlazear\source\repos\ThermoParquet\bin\Release\net7.0\ThermoParquet.runtimeconfig.json" target="lib\net7.0\ThermoParquet.runtimeconfig.json" />
+    <file src="C:\Users\mlazear\source\repos\ThermoParquet\bin\Release\net7.0\ThermoParquet.dll" target="lib\net7.0\ThermoParquet.dll" />
+  </files>
+</package>
