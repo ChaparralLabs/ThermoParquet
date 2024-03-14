@@ -1,6 +1,8 @@
 ﻿
+using System.Formats.Tar;
 using Parquet.Serialization;
 using ThermoFisher.CommonCore.Data.Business;
+using ThermoFisher.CommonCore.Data.Interfaces;
 using ThermoFisher.CommonCore.RawFileReader;
 
 struct MzParquet
@@ -42,7 +44,13 @@ class Program
 
             var f = raw.GetFilterForScanNumber(scan);
             var rt = raw.RetentionTimeFromScanNumber(scan);
-            var cs = raw.GetSimplifiedScan(scan);
+
+            ISimpleScanAccess cs = raw.GetSimplifiedCentroids(scan);
+
+            if (cs.Masses.Length == 0)
+            {
+                cs = raw.GetSimplifiedScan(scan);
+            }
 
             float? isolation_lower = null;
             float? isolation_upper = null;
@@ -79,32 +87,22 @@ class Program
                 var rx = f.GetReaction(0);
                 isolation_lower = (float)(rx.PrecursorMass - rx.IsolationWidth / 2);
                 isolation_upper = (float)(rx.PrecursorMass + rx.IsolationWidth / 2);
-                //collision_energy = (float) rx.CollisionEnergy;
-
-
             }
 
 
-
-            var masses = cs.Masses;
-            var intensities = cs.Intensities;
-
-
-            for (int i = 0; i < masses.Length; i++)
+            for (int i = 0; i < cs.Masses.Length; i++)
             {
                 MzParquet m;
                 m.rt = (float)rt;
                 m.scan = (uint)scan;
                 m.level = ((uint)f.MSOrder);
-                m.intensity = (float)intensities[i];
-                m.mz = (float)masses[i];
+                m.intensity = (float) cs.Intensities[i];
+                m.mz = (float) cs.Masses[i];
                 m.isolation_lower = isolation_lower;
                 m.isolation_upper = isolation_upper;
                 m.precursor_mz = precursor_mz;
                 m.precursor_charge = precursor_charge;
-                //m.collision_energy = collision_energy;
                 m.ion_mobility = null;
-                //m.analyzer = f.MassAnalyzer.ToString();
 
                 data.Add(m);
             }
