@@ -1,0 +1,51 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "Z:\\ThermoParquet\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{8EC0B9E4-595B-4DC6-B556-92DEF26591C6}|ThermoParquet.csproj|z:\\thermoparquet\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{8EC0B9E4-595B-4DC6-B556-92DEF26591C6}|ThermoParquet.csproj|solutionrelative:program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Michael\\AppData\\Local\\Temp\\.vsdbgsrc\\24e24e543dcf02250b2575aef7d97a0d2c8464c10b7251de57012a7985b58dc4\\RawFileAccessBase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "RawFileAccessBase.cs",
+              "DocumentMoniker": "C:\\Users\\Michael\\AppData\\Local\\Temp\\.vsdbgsrc\\24e24e543dcf02250b2575aef7d97a0d2c8464c10b7251de57012a7985b58dc4\\RawFileAccessBase.cs",
+              "ToolTip": "C:\\Users\\Michael\\AppData\\Local\\Temp\\.vsdbgsrc\\24e24e543dcf02250b2575aef7d97a0d2c8464c10b7251de57012a7985b58dc4\\RawFileAccessBase.cs [Read Only]",
+              "ViewState": "AQIAANYEAAAAAAAAAADgv+8EAAADAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T19:44:21.765Z",
+              "EditorCaption": " [Read Only]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "Z:\\ThermoParquet\\Program.cs",
+              "RelativeDocumentMoniker": "Program.cs",
+              "ToolTip": "Z:\\ThermoParquet\\Program.cs",
+              "RelativeToolTip": "Program.cs",
+              "ViewState": "AQIAAAgAAAAAAAAAAAAQwBMAAAAcAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-03-16T19:28:33.118Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

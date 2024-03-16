@@ -13,22 +13,21 @@ struct MzParquet
     public float mz;
     public float intensity;
     public float? ion_mobility;
-    //public float? collision_energy;  
     public float? isolation_lower;
     public float? isolation_upper;
     public float? precursor_mz;
     public float? precursor_charge;
-    //public string? analyzer;
+    //public string? filter;
 }
 
 class Program
 {
     static async Task Main(string[] arg)
     {
-        var path = arg[0];
+        //var path = arg[0];
+        var path = "C:\\Users\\Michael\\Documents\\2013_04_18_15_03_Q-Exactive-Orbitrap_1.raw";
         var output = path.Replace(".raw", ".mzparquet");
         var raw = RawFileReaderAdapter.FileFactory(path);
-
         raw.SelectInstrument(Device.MS, 1);
         int firstScanNumber = raw.RunHeaderEx.FirstSpectrum;
         int lastScanNumber = raw.RunHeaderEx.LastSpectrum;
@@ -56,7 +55,15 @@ class Program
             float? isolation_upper = null;
             float? precursor_mz = null;
             float? precursor_charge = null;
-            float? collision_energy = null;
+
+
+            if ((int)f.MSOrder > 1)
+            {
+                var rx = f.GetReaction(0);
+                isolation_lower = (float)(rx.PrecursorMass - rx.IsolationWidth / 2);
+                isolation_upper = (float)(rx.PrecursorMass + rx.IsolationWidth / 2);
+                precursor_mz = (float)rx.PrecursorMass;
+            }
 
             var trailer = raw.GetTrailerExtraInformation(scan);
 
@@ -81,15 +88,7 @@ class Program
                 }
             }
 
-
-            if ((int)f.MSOrder > 1)
-            {
-                var rx = f.GetReaction(0);
-                isolation_lower = (float)(rx.PrecursorMass - rx.IsolationWidth / 2);
-                isolation_upper = (float)(rx.PrecursorMass + rx.IsolationWidth / 2);
-            }
-
-
+            //var filter = f.ToString();
             for (int i = 0; i < cs.Masses.Length; i++)
             {
                 MzParquet m;
@@ -103,6 +102,7 @@ class Program
                 m.precursor_mz = precursor_mz;
                 m.precursor_charge = precursor_charge;
                 m.ion_mobility = null;
+                //m.filter = filter;
 
                 data.Add(m);
             }

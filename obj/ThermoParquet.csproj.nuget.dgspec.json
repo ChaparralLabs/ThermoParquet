@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\ThermoParquet.csproj": {}
+    "Z:\\ThermoParquet\\ThermoParquet.csproj": {}
   },
   "projects": {
-    "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\ThermoParquet.csproj": {
+    "Z:\\ThermoParquet\\ThermoParquet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\ThermoParquet.csproj",
+        "projectUniqueName": "Z:\\ThermoParquet\\ThermoParquet.csproj",
         "projectName": "ThermoParquet",
-        "projectPath": "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\ThermoParquet.csproj",
-        "packagesPath": "C:\\Users\\mlazear\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\obj\\",
+        "projectPath": "Z:\\ThermoParquet\\ThermoParquet.csproj",
+        "packagesPath": "C:\\Users\\Michael\\.nuget\\packages\\",
+        "outputPath": "Z:\\ThermoParquet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\mlazear\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Michael\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -22,8 +22,7 @@
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "C:\\Users\\mlazear\\source\\repos\\ThermoParquet\\NetCore": {},
-          "E:\\Github\\RawFileReader\\Libs\\NetCore": {},
+          "Z:\\ThermoParquet\\NetCore": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -36,6 +35,11 @@
           "warnAsError": [
             "NU1605"
           ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -71,7 +75,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.407\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
         }
       }
     }

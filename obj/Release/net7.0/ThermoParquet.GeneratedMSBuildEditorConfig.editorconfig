@@ -8,4 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = ThermoParquet
-build_property.ProjectDir = C:\Users\mlazear\source\repos\ThermoParquet\
+build_property.ProjectDir = Z:\ThermoParquet\
+build_property.EnableComHosting = 
+build_property.EnableGeneratedComInterfaceComImportInterop = 
