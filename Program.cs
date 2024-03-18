@@ -24,8 +24,8 @@ class Program
 {
     static async Task Main(string[] arg)
     {
-        //var path = arg[0];
-        var path = "C:\\Users\\Michael\\Documents\\2013_04_18_15_03_Q-Exactive-Orbitrap_1.raw";
+        var path = arg[0];
+        //var path = "C:\\Users\\Michael\\Documents\\2013_04_18_15_03_Q-Exactive-Orbitrap_1.raw";
         var output = path.Replace(".raw", ".mzparquet");
         var raw = RawFileReaderAdapter.FileFactory(path);
         raw.SelectInstrument(Device.MS, 1);
