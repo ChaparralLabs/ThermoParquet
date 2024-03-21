@@ -15,6 +15,7 @@ struct MzParquet
     public float? ion_mobility;
     public float? isolation_lower;
     public float? isolation_upper;
+    public int? precursor_scan;
     public float? precursor_mz;
     public float? precursor_charge;
     //public string? filter;
@@ -25,7 +26,7 @@ class Program
     static async Task Main(string[] arg)
     {
         var path = arg[0];
-        //var path = "C:\\Users\\Michael\\Documents\\2013_04_18_15_03_Q-Exactive-Orbitrap_1.raw";
+        //var path = "C:\\Users\\Michael\\Documents\\15690_3_61d4b5c2-257a-4537-b356-0b624300c424.raw";
         var output = path.Replace(".raw", ".mzparquet");
         var raw = RawFileReaderAdapter.FileFactory(path);
         raw.SelectInstrument(Device.MS, 1);
@@ -38,11 +39,14 @@ class Program
         opts.CompressionMethod = Parquet.CompressionMethod.Zstd;
         opts.CompressionLevel = System.IO.Compression.CompressionLevel.Fastest;
 
+        var last_scans = new Dictionary<int, int>();
+
         for (int scan = firstScanNumber; scan <= lastScanNumber; scan++)
         {
 
             var f = raw.GetFilterForScanNumber(scan);
             var rt = raw.RetentionTimeFromScanNumber(scan);
+            last_scans[(int) f.MSOrder] = scan;
 
             ISimpleScanAccess cs = raw.GetSimplifiedCentroids(scan);
 
@@ -53,8 +57,10 @@ class Program
 
             float? isolation_lower = null;
             float? isolation_upper = null;
+            int? precursor_scan = null;
             float? precursor_mz = null;
             float? precursor_charge = null;
+
 
 
             if ((int)f.MSOrder > 1)
@@ -63,18 +69,36 @@ class Program
                 isolation_lower = (float)(rx.PrecursorMass - rx.IsolationWidth / 2);
                 isolation_upper = (float)(rx.PrecursorMass + rx.IsolationWidth / 2);
                 precursor_mz = (float)rx.PrecursorMass;
+                int t;
+                if (last_scans.TryGetValue((int)f.MSOrder - 1, out t))
+                {
+                    precursor_scan = t;
+                    //Console.WriteLine("Previous scan for MS${0}:{1} = {2} {3}", f.MSOrder, scan, t, f.ToString());
+                }
             }
 
             var trailer = raw.GetTrailerExtraInformation(scan);
 
             for (var i = 0l; i < trailer.Length; i++)
             {
+                // FIXME: handle cases where this doesn't exist?
                 if (trailer.Labels[i].StartsWith("Monoisotopic M/Z"))
                 {
                     var val = float.Parse(trailer.Values[i]);
                     if (val > 0)
                     {
                         precursor_mz = val;
+                    }
+                }
+
+                if (trailer.Labels[i].StartsWith("Master Scan"))
+                {
+                    var val = int.Parse(trailer.Values[i]);
+                    if (val > 0)
+                    {
+                        precursor_scan = val;
+                        Console.WriteLine("Previous scan for MS${0}:{1} = {2} {3}", f.MSOrder, scan, precursor_scan, f.ToString());
+
                     }
                 }
 
@@ -99,6 +123,7 @@ class Program
                 m.mz = (float) cs.Masses[i];
                 m.isolation_lower = isolation_lower;
                 m.isolation_upper = isolation_upper;
+                m.precursor_scan = precursor_scan;
                 m.precursor_mz = precursor_mz;
                 m.precursor_charge = precursor_charge;
                 m.ion_mobility = null;
