@@ -11,13 +11,13 @@ struct MzParquet
     public uint level;
     public float rt;
     public float mz;
-    public float intensity;
+    public uint intensity;
     public float? ion_mobility;
     public float? isolation_lower;
     public float? isolation_upper;
-    public int? precursor_scan;
+    public uint? precursor_scan;
     public float? precursor_mz;
-    public float? precursor_charge;
+    public uint? precursor_charge;
     //public string? filter;
 }
 
@@ -39,14 +39,14 @@ class Program
         opts.CompressionMethod = Parquet.CompressionMethod.Zstd;
         opts.CompressionLevel = System.IO.Compression.CompressionLevel.Fastest;
 
-        var last_scans = new Dictionary<int, int>();
+        var last_scans = new Dictionary<int, uint>();
 
         for (int scan = firstScanNumber; scan <= lastScanNumber; scan++)
         {
 
             var f = raw.GetFilterForScanNumber(scan);
             var rt = raw.RetentionTimeFromScanNumber(scan);
-            last_scans[(int) f.MSOrder] = scan;
+            last_scans[(int) f.MSOrder] = (uint) scan;
 
             ISimpleScanAccess cs = raw.GetSimplifiedCentroids(scan);
 
@@ -57,9 +57,9 @@ class Program
 
             float? isolation_lower = null;
             float? isolation_upper = null;
-            int? precursor_scan = null;
+            uint? precursor_scan = null;
             float? precursor_mz = null;
-            float? precursor_charge = null;
+            uint? precursor_charge = null;
 
 
 
@@ -69,7 +69,7 @@ class Program
                 isolation_lower = (float)(rx.PrecursorMass - rx.IsolationWidth / 2);
                 isolation_upper = (float)(rx.PrecursorMass + rx.IsolationWidth / 2);
                 precursor_mz = (float)rx.PrecursorMass;
-                int t;
+                uint t;
                 if (last_scans.TryGetValue((int)f.MSOrder - 1, out t))
                 {
                     precursor_scan = t;
@@ -81,7 +81,7 @@ class Program
 
             for (var i = 0l; i < trailer.Length; i++)
             {
-                // FIXME: handle cases where this doesn't exist?
+
                 if (trailer.Labels[i].StartsWith("Monoisotopic M/Z"))
                 {
                     var val = float.Parse(trailer.Values[i]);
@@ -91,20 +91,21 @@ class Program
                     }
                 }
 
+                // FIXME: handle cases where this doesn't exist?
                 if (trailer.Labels[i].StartsWith("Master Scan"))
                 {
-                    var val = int.Parse(trailer.Values[i]);
+                    var val = uint.Parse(trailer.Values[i]);
                     if (val > 0)
                     {
                         precursor_scan = val;
-                        Console.WriteLine("Previous scan for MS${0}:{1} = {2} {3}", f.MSOrder, scan, precursor_scan, f.ToString());
+                       // Console.WriteLine("Previous scan for MS${0}:{1} = {2} {3}", f.MSOrder, scan, precursor_scan, f.ToString());
 
                     }
                 }
 
                 if (trailer.Labels[i].StartsWith("Charge"))
                 {
-                    var val = float.Parse(trailer.Values[i]);
+                    var val = uint.Parse(trailer.Values[i]);
                     if (val > 0)
                     {
                         precursor_charge = val;
@@ -119,7 +120,7 @@ class Program
                 m.rt = (float)rt;
                 m.scan = (uint)scan;
                 m.level = ((uint)f.MSOrder);
-                m.intensity = (float) cs.Intensities[i];
+                m.intensity = (uint) cs.Intensities[i];
                 m.mz = (float) cs.Masses[i];
                 m.isolation_lower = isolation_lower;
                 m.isolation_upper = isolation_upper;
