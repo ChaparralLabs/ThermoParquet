@@ -95,7 +95,6 @@ class Program
                 // FIXME: handle cases where this doesn't exist?
                 if (trailer.Labels[i].StartsWith("Master Scan"))
                 {
-                    Console.WriteLine(trailer.Values[i].ToString());
                     var val = Int64.Parse(trailer.Values[i]);
                     if (val > 0)
                     {
