@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ThermoParquet")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Release")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+90c803e2e1b7c5bf44db39eb65152d93cc4ed8d7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b76dbae73f2a4fd94e77c7370afa4374b67ddeb5")]
 [assembly: System.Reflection.AssemblyProductAttribute("ThermoParquet")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ThermoParquet")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

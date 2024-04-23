@@ -27,6 +27,7 @@ class Program
     {
         var path = arg[0];
         //var path = "C:\\Users\\Michael\\Documents\\15690_3_61d4b5c2-257a-4537-b356-0b624300c424.raw";
+        //var path = "C:\\20220829_MJ-22-29_WP_PSME1_12.raw";
         var output = path.Replace(".raw", ".mzparquet");
         var raw = RawFileReaderAdapter.FileFactory(path);
         raw.SelectInstrument(Device.MS, 1);
@@ -94,10 +95,11 @@ class Program
                 // FIXME: handle cases where this doesn't exist?
                 if (trailer.Labels[i].StartsWith("Master Scan"))
                 {
-                    var val = uint.Parse(trailer.Values[i]);
+                    Console.WriteLine(trailer.Values[i].ToString());
+                    var val = Int64.Parse(trailer.Values[i]);
                     if (val > 0)
                     {
-                        precursor_scan = val;
+                        precursor_scan = (uint) val;
                        // Console.WriteLine("Previous scan for MS${0}:{1} = {2} {3}", f.MSOrder, scan, precursor_scan, f.ToString());
 
                     }
