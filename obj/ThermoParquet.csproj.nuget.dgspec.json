@@ -1,28 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "Z:\\ThermoParquet\\ThermoParquet.csproj": {}
+    "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\ThermoParquet.csproj": {}
   },
   "projects": {
-    "Z:\\ThermoParquet\\ThermoParquet.csproj": {
+    "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\ThermoParquet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "Z:\\ThermoParquet\\ThermoParquet.csproj",
+        "projectUniqueName": "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\ThermoParquet.csproj",
         "projectName": "ThermoParquet",
-        "projectPath": "Z:\\ThermoParquet\\ThermoParquet.csproj",
-        "packagesPath": "C:\\Users\\Michael\\.nuget\\packages\\",
-        "outputPath": "Z:\\ThermoParquet\\obj\\",
+        "projectPath": "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\ThermoParquet.csproj",
+        "packagesPath": "C:\\Users\\robin\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Michael\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\NuGet.Config",
+          "C:\\Users\\robin\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net7.0"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "Z:\\ThermoParquet\\NetCore": {},
+          "C:\\Users\\robin\\IdeaProjects\\ThermoParquet\\NetCore": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -35,11 +34,6 @@
           "warnAsError": [
             "NU1605"
           ]
-        },
-        "restoreAuditProperties": {
-          "enableAudit": "true",
-          "auditLevel": "low",
-          "auditMode": "direct"
         }
       },
       "frameworks": {
@@ -70,12 +64,31 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Runtime.win-x64",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Runtime.win-x64",
+              "version": "[7.0.20, 7.0.20]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Runtime.win-x64",
+              "version": "[7.0.20, 7.0.20]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.410\\RuntimeIdentifierGraph.json"
+        }
+      },
+      "runtimes": {
+        "win-x64": {
+          "#import": []
         }
       }
     }

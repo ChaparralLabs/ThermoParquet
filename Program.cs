@@ -23,16 +23,70 @@ struct MzParquet
 
 class Program
 {
-    static async Task Main(string[] arg)
+    static async Task Main(string[] args)
     {
-        var path = arg[0];
-        //var path = "C:\\Users\\Michael\\Documents\\15690_3_61d4b5c2-257a-4537-b356-0b624300c424.raw";
-        //var path = "C:\\20220829_MJ-22-29_WP_PSME1_12.raw";
-        var output = path.Replace(".raw", ".mzparquet");
-        var raw = RawFileReaderAdapter.FileFactory(path);
-        raw.SelectInstrument(Device.MS, 1);
-        int firstScanNumber = raw.RunHeaderEx.FirstSpectrum;
-        int lastScanNumber = raw.RunHeaderEx.LastSpectrum;
+        // Check if a file path was provided
+        if (args.Length == 0)
+        {
+            Console.WriteLine("ERROR: No input file specified.");
+            Console.WriteLine("");
+            Console.WriteLine("Usage: ThermoParquet.exe <path_to_raw_file>");
+            Console.WriteLine("");
+            Console.WriteLine("Example:");
+            Console.WriteLine("  ThermoParquet.exe C:\\Data\\sample.raw");
+            Console.WriteLine("");
+            Console.WriteLine("This will create: C:\\Data\\sample.mzparquet");
+            Environment.Exit(1);
+            return;
+        }
+
+        var path = args[0];
+
+        // Check if file exists
+        if (!File.Exists(path))
+        {
+            Console.WriteLine($"ERROR: File not found: {path}");
+            Console.WriteLine("");
+            Console.WriteLine("Please check that the file path is correct and the file exists.");
+            Environment.Exit(1);
+            return;
+        }
+
+        // Check if it's a .raw file
+        if (!path.EndsWith(".raw", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine($"ERROR: Input file must be a .raw file: {path}");
+            Console.WriteLine("");
+            Console.WriteLine("This tool only converts Thermo .raw files to .mzparquet format.");
+            Environment.Exit(1);
+            return;
+        }
+
+        var output = path.Replace(".raw", ".mzparquet", StringComparison.OrdinalIgnoreCase);
+        
+        Console.WriteLine($"Converting: {path}");
+        Console.WriteLine($"Output: {output}");
+        Console.WriteLine("");
+
+        IRawDataPlus? raw = null;
+        try
+        {
+            raw = RawFileReaderAdapter.FileFactory(path);
+            
+            if (raw == null || raw.IsError)
+            {
+                Console.WriteLine("ERROR: Failed to open the .raw file.");
+                Console.WriteLine("");
+                Console.WriteLine("The file may be corrupted or not a valid Thermo raw file.");
+                Environment.Exit(1);
+                return;
+            }
+
+            raw.SelectInstrument(Device.MS, 1);
+            int firstScanNumber = raw.RunHeaderEx.FirstSpectrum;
+            int lastScanNumber = raw.RunHeaderEx.LastSpectrum;
+            
+            Console.WriteLine($"Processing {lastScanNumber - firstScanNumber + 1} scans...");
 
         var data = new List<MzParquet>();
 
@@ -41,9 +95,18 @@ class Program
         opts.CompressionLevel = System.IO.Compression.CompressionLevel.Fastest;
 
         var last_scans = new Dictionary<int, uint>();
+        int totalScans = lastScanNumber - firstScanNumber + 1;
+        int lastReportedProgress = 0;
 
         for (int scan = firstScanNumber; scan <= lastScanNumber; scan++)
         {
+            // Report progress every 10%
+            int progress = (scan - firstScanNumber) * 100 / totalScans;
+            if (progress >= lastReportedProgress + 10)
+            {
+                lastReportedProgress = (progress / 10) * 10;
+                Console.WriteLine($"Progress: {lastReportedProgress}%");
+            }
 
             var f = raw.GetFilterForScanNumber(scan);
             var rt = raw.RetentionTimeFromScanNumber(scan);
@@ -139,16 +202,37 @@ class Program
                 await ParquetSerializer.SerializeAsync(data, output, opts);
                 opts.Append = true;
                 data.Clear();
-                Console.WriteLine("writing chunk");
             }
         }
 
         if (data.Count > 0)
-        {
-            await ParquetSerializer.SerializeAsync(data, output, opts);
-            Console.WriteLine("writing chunk");
+            {
+                await ParquetSerializer.SerializeAsync(data, output, opts);
+                Console.WriteLine("Writing final chunk...");
+            }
+            
+            Console.WriteLine("");
+            Console.WriteLine($"SUCCESS: Conversion complete!");
+            Console.WriteLine($"Output file: {output}");
         }
-        Console.WriteLine("finished writing to {0}", output);
+        catch (Exception ex)
+        {
+            Console.WriteLine("");
+            Console.WriteLine($"ERROR: Conversion failed.");
+            Console.WriteLine("");
+            Console.WriteLine($"Details: {ex.Message}");
+            Console.WriteLine("");
+            Console.WriteLine("Common causes:");
+            Console.WriteLine("  - The .raw file is corrupted or incomplete");
+            Console.WriteLine("  - The file is being used by another program");
+            Console.WriteLine("  - Insufficient disk space for output file");
+            Console.WriteLine("  - No write permission to output folder");
+            Environment.Exit(1);
+        }
+        finally
+        {
+            raw?.Dispose();
+        }
     }
 }
 
