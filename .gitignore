@@ -3,7 +3,3 @@ obj/
 .vs/
 NetCore/
 publish_single/
-*.cs
-*.csproj
-*.sln
-nuget.config
