@@ -3,5 +3,4 @@ obj/
 .vs/
 NetCore/
 publish_single/
-config.bat
 node_modules
